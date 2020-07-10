@@ -2,29 +2,44 @@
 	This code was written by Nick Darnell
 	
 	Plugin created by Rama
+	Modified by Nicholas Helish
 */
-#include "GamepadUMGPluginPrivatePCH.h"
+#include "VirtualCursorFunctionLibrary.h"
 #include "GamepadCursorSettings.h"
 #include "GameAnalogCursor.h"
-#include "VirtualCursorFunctionLibrary.h"
+#include "GamepadCursorManager.h"
 
-void UVirtualCursorFunctionLibrary::EnableVirtualCursor(class APlayerController* PC)
+void UVirtualCursorFunctionLibrary::Global_EnableVirtualCursor(class APlayerController* PC)
 {
-	FGameAnalogCursor::EnableAnalogCursor(PC, TSharedPtr<SWidget>());
-}
-
-void UVirtualCursorFunctionLibrary::DisableVirtualCursor(class APlayerController* PC)
-{
-	FGameAnalogCursor::DisableAnalogCursor(PC);
-}
-
-bool UVirtualCursorFunctionLibrary::IsCursorOverInteractableWidget()
-{
-	TSharedPtr<FGameAnalogCursor> Analog = GetDefault<UGamepadCursorSettings>()->GetAnalogCursor();
-	if ( Analog.IsValid() )
+	if (PC)
 	{
-		return Analog->IsHovered();
-	}
+		if (PC->GetLocalPlayer())
+		{
+			PC->GetLocalPlayer()->GetSubsystem<UGamepadCursorManager>()->EnableAnalogCursor();
+		}
+	}	
+}
 
+void UVirtualCursorFunctionLibrary::Global_DisableVirtualCursor(class APlayerController* PC)
+{
+	if (PC)
+	{
+		if (PC->GetLocalPlayer())
+		{
+			PC->GetLocalPlayer()->GetSubsystem<UGamepadCursorManager>()->DisableAnalogCursor();
+		}
+	}
+}
+
+bool UVirtualCursorFunctionLibrary::Global_IsCursorOverInteractableWidget(class APlayerController* PC)
+{
+	if (PC)
+	{
+		if (PC->GetLocalPlayer())
+		{
+			return PC->GetLocalPlayer()->GetSubsystem<UGamepadCursorManager>()->IsCursorOverInteractableWidget();
+		}
+	}
+	
 	return false;
 }

@@ -1,7 +1,8 @@
 /*
 	This code was written by Nick Darnell
-	
+
 	Plugin created by Rama
+	Modified by Nicholas Helish
 */
 #pragma once
 
@@ -107,16 +108,6 @@ public:
 		return bAnalogCursorNoAcceleration;
 	}
 
-	FORCEINLINE void SetAnalogCursor(TSharedPtr<FGameAnalogCursor> InAnalogCursor)
-	{
-		AnalogCursor = InAnalogCursor;
-	}
-
-	FORCEINLINE TSharedPtr<FGameAnalogCursor> GetAnalogCursor() const
-	{
-		return AnalogCursor.Pin();
-	}
-
 private:
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta=(
 		XAxisName="Strength",
@@ -152,7 +143,7 @@ private:
 	float AnalogCursorAccelerationMultiplier;
 
 	/** The size (on screen) of the analog cursor */
-	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "1.0", ClampMax = "128.0"))
+	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "0.0"))
 	float AnalogCursorSize;
 
 	/** If true, defaults to the Engine's Analog Cursor */
@@ -162,7 +153,4 @@ private:
 	/** If True, AnalogCursorAccelerationCurve will be used as a Velocity Curve */
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor")
 	bool bAnalogCursorNoAcceleration;
-
-	// Analog Cursor
-	TWeakPtr<FGameAnalogCursor> AnalogCursor;
 };

@@ -2,12 +2,14 @@
 	This code was written by Nick Darnell
 	
 	Plugin created by Rama
+	Modified by Nicholas Helish
 */
-#include "GamepadUMGPluginPrivatePCH.h"
-#include "GamepadCursorSettings.h"
 #include "GameAnalogCursor.h"
+#include "GamepadCursorSettings.h"
 #include "WidgetLayoutLibrary.h"
 #include "Engine/UserInterfaceSettings.h"
+#include "GamepadCursorManager.h"
+#include "Engine/Engine.h"
 
 bool IsWidgetInteractable(const TSharedPtr<SWidget> Widget)
 {
@@ -18,44 +20,22 @@ bool IsWidgetInteractable(const TSharedPtr<SWidget> Widget)
 // FGameAnalogCursor
 ////////////////////////////////////////////////////////////////////////////
 
-void FGameAnalogCursor::EnableAnalogCursor(class APlayerController* PC, TSharedPtr<SWidget> WidgetToFocus)
+FGameAnalogCursor::FGameAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorld, float _Radius)
+	: bAnalogDebug(false)
+	, Velocity(FVector2D::ZeroVector)
+	, CurrentPosition(FLT_MAX, FLT_MAX)
+	, LastCursorDirection(FVector2D::ZeroVector)
+	, HoveredWidgetName(NAME_None)
+	, bIsUsingAnalogCursor(false)
+	, Radius(FMath::Max<float>(_Radius, 16.0f))
+	, PlayerContext(InLocalPlayer, InWorld)
 {
-	if (PC)
-	{
-		const float CursorRadius = GetDefault<UGamepadCursorSettings>()->GetAnalogCursorRadius();
-		TSharedPtr<FGameAnalogCursor> AnalogCursor = MakeShareable(new FGameAnalogCursor(PC, CursorRadius));
-		FSlateApplication::Get().RegisterInputPreProcessor(AnalogCursor);
-		FSlateApplication::Get().SetCursorRadius(CursorRadius);
-
-		GetMutableDefault<UGamepadCursorSettings>()->SetAnalogCursor(AnalogCursor);
-
-		//setup the new input mode
-		FInputModeGameAndUI NewInputMode;
-		//NewInputMode.SetLockMouseToViewport(true);
-		NewInputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockOnCapture);
-
-		NewInputMode.SetWidgetToFocus(WidgetToFocus);
-		PC->SetInputMode(NewInputMode);
-	}
-}
-
-void FGameAnalogCursor::DisableAnalogCursor(class APlayerController* PC)
-{
-	if (PC)
-	{
-		if (FSlateApplication::IsInitialized())
-		{
-			FSlateApplication::Get().UnregisterInputPreProcessor(GetMutableDefault<UGamepadCursorSettings>()->GetAnalogCursor());
-			FSlateApplication::Get().SetCursorRadius(0.0f);
-		}
-	
-		FInputModeGameOnly NewInputMode;
-		PC->SetInputMode(NewInputMode);
-	}
+	ensure(PlayerContext.IsValid());	
 }
 
 FGameAnalogCursor::FGameAnalogCursor(class APlayerController* PC, float _Radius)
-: Velocity(FVector2D::ZeroVector)
+: bAnalogDebug(false)
+, Velocity(FVector2D::ZeroVector)
 , CurrentPosition(FLT_MAX, FLT_MAX)
 , LastCursorDirection(FVector2D::ZeroVector)
 , HoveredWidgetName(NAME_None)
@@ -63,27 +43,90 @@ FGameAnalogCursor::FGameAnalogCursor(class APlayerController* PC, float _Radius)
 , Radius(FMath::Max<float>(_Radius, 16.0f))
 , PlayerContext(PC)
 {
-	ensure(PlayerContext.IsValid());
+	ensure(PlayerContext.IsValid());	
+}
+
+int32 FGameAnalogCursor::GetOwnerUserIndex() const
+{	
+	if (ULocalPlayer* LP = PlayerContext.GetLocalPlayer())
+	{
+		return LP->GetControllerId();
+	}
+	return 0;
+}
+
+bool FGameAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
+{
+	const FKey PressedKey = InKeyEvent.GetKey();
+	if (PressedKeys.Contains(PressedKey))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "KEY: " + PressedKey.ToString() + " Held");
+	}
+	else
+	{
+		PressedKeys.Add(PressedKey);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "KEY: " + PressedKey.ToString() + " Pressed");
+	}
+	return FAnalogCursor::HandleKeyDownEvent(SlateApp, InKeyEvent);
+}
+
+bool FGameAnalogCursor::HandleKeyUpEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
+{
+	const FKey ReleasedKey = InKeyEvent.GetKey();
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "KEY: " + ReleasedKey.ToString() + " Released");
+	PressedKeys.Remove(ReleasedKey);
+	return FAnalogCursor::HandleKeyUpEvent(SlateApp, InKeyEvent);
+}
+
+bool FGameAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, const FAnalogInputEvent& InAnalogInputEvent)
+{
+	if (bAnalogDebug)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "ANALOG: " + InAnalogInputEvent.GetKey().ToString());
+	}
+	return FAnalogCursor::HandleAnalogInputEvent(SlateApp, InAnalogInputEvent);
+}
+
+bool FGameAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
+{
+	const FKey PressedKey = MouseEvent.GetEffectingButton();
+	if (PressedKeys.Contains(PressedKey))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "MOUSE: " + PressedKey.ToString() + " Held");
+	}
+	else
+	{
+		PressedKeys.Add(PressedKey);
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "MOUSE: " + PressedKey.ToString() + " Pressed");
+	}
+	return false;
+}
+
+bool FGameAnalogCursor::HandleMouseButtonUpEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
+{
+	const FKey ReleasedKey = MouseEvent.GetEffectingButton();
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "MOUSE: " + ReleasedKey.ToString() + " Released");
+	PressedKeys.Remove(ReleasedKey);
+	return false;
 }
 
 void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp, TSharedRef<ICursor> Cursor)
 {
-	if (PlayerContext.IsValid())
+	if (PlayerContext.IsValid() && PlayerContext.GetPlayerController())
 	{
 		const FVector2D ViewportSize = UWidgetLayoutLibrary::GetViewportSize(PlayerContext.GetPlayerController());
 		const float DPIScale = GetDefault<UUserInterfaceSettings>()->GetDPIScaleBasedOnSize(FIntPoint(FMath::RoundToInt(ViewportSize.X), FMath::RoundToInt(ViewportSize.Y)));
 		
-
 		const UGamepadCursorSettings* Settings = GetDefault<UGamepadCursorSettings>();
 
-		//if we have no acceleration curve, then move on;
+		// If we have no acceleration curve, then move on;
 		if (Settings->GetUseEngineAnalogCursor())
 		{
 			FAnalogCursor::Tick(DeltaTime, SlateApp, Cursor);
 			return;
 		}
 
-		//set the current position if we haven't already
+		// Set the current position if we haven't already
 		static const float MouseMoveSizeBuffer = 2.0f;
 		const FVector2D CurrentPositionTruc = FVector2D(FMath::TruncToFloat(CurrentPosition.X), FMath::TruncToFloat(CurrentPosition.Y));
 		if (CurrentPositionTruc != Cursor->GetPosition())
@@ -95,10 +138,10 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 			FSlateApplication::Get().SetCursorRadius(0.0f);
 		}
 
-		//cache the old position
+		// Cache the old position
 		const FVector2D OldPosition = CurrentPosition;
 
-		//figure out if we should clamp the speed or not
+		// Figure out if we should clamp the speed or not
 		const float MaxSpeedNoHover = Settings->GetMaxAnalogCursorSpeed()*DPIScale;
 		const float MaxSpeedHover = Settings->GetMaxAnalogCursorSpeedWhenHovered()*DPIScale;
 		const float DragCoNoHover = Settings->GetAnalogCursorDragCoefficient()*DPIScale;
@@ -108,20 +151,20 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 		HoveredWidgetName = NAME_None;
 		float DragCo = DragCoNoHover;
 		
-		//Part of base class now
+		// Part of base class now
 		MaxSpeed = MaxSpeedNoHover;
 
-		//see if we are hovered over a widget or not
+		// See if we are hovered over a widget or not
 		FWidgetPath WidgetPath = SlateApp.LocateWindowUnderMouse(OldPosition, SlateApp.GetInteractiveTopLevelWindows());
 		if (WidgetPath.IsValid())
 		{
 			for (int32 i = WidgetPath.Widgets.Num() - 1; i >= 0; --i)
 			{
-				//grab the widget
+				// Grab the widget
 				FArrangedWidget& ArrangedWidget = WidgetPath.Widgets[i];
 				TSharedRef<SWidget> Widget = ArrangedWidget.Widget;
 
-				//see if it is acceptable or not
+				// See if it is acceptable or not
 				if (IsWidgetInteractable(Widget))
 				{
 					HoveredWidgetName = Widget->GetType();
@@ -132,13 +175,13 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 			}
 		}
 
-		//grab the cursor acceleration
+		// Grab the cursor acceleration
 		const FVector2D AccelFromAnalogStick = GetAnalogCursorAccelerationValue(GetAnalogValues(), DPIScale);
 
 		FVector2D NewAccelerationThisFrame = FVector2D::ZeroVector;
 		if (!Settings->GetAnalogCursorNoAcceleration())
 		{
-			//Calculate a new velocity. RK4.
+			// Calculate a new velocity. RK4.
 			if (!AccelFromAnalogStick.IsZero() || !Velocity.IsZero())
 			{
 				const FVector2D A1 = (AccelFromAnalogStick - (DragCo * Velocity)) * DeltaTime;
@@ -151,11 +194,11 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 		}
 		else
 		{
-			//else, use what is coming straight from the analog stick
+			// Else, use what is coming straight from the analog stick
 			Velocity = AccelFromAnalogStick;
 		}
 
-		//if we are smaller than out min speed, zero it out
+		// If we are smaller than out min speed, zero it out
 		const float VelSizeSq = Velocity.SizeSquared();
 		if (VelSizeSq < (MinCursorSpeed * MinCursorSpeed))
 		{
@@ -173,13 +216,13 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 			LastCursorDirection = Velocity.GetSafeNormal();
 		}
 
-		//update the new position
+		// Update the new position
 		CurrentPosition += (Velocity * DeltaTime);
+		
+		// Update the cursor position
+		UpdateCursorPosition(SlateApp, SlateApp.GetUser(GetOwnerUserIndex()).ToSharedRef(), CurrentPosition);
 
-		//update the cursor position
-		UpdateCursorPosition(SlateApp, Cursor, CurrentPosition);
-
-		//if we get here, and we are moving the stick, then hooray
+		// If we get here, and we are moving the stick, then hooray
 		if (!AccelFromAnalogStick.IsZero())
 		{
 			bIsUsingAnalogCursor = true;

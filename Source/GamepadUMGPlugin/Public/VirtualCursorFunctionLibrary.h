@@ -2,6 +2,7 @@
 	This code was written by Nick Darnell
 	
 	Plugin created by Rama
+	Modified by Nicholas Helish
 */
 #pragma once
 
@@ -18,12 +19,12 @@ class GAMEPADUMGPLUGIN_API UVirtualCursorFunctionLibrary : public UBlueprintFunc
 
 public:
 	
-	UFUNCTION(BlueprintCallable, Category="Game")
-	static void EnableVirtualCursor(class APlayerController* PC);
+	UFUNCTION(BlueprintCallable, Category="Game", meta = (DisplayName = "(Global) Enable Virtual Cursor"))
+	static void Global_EnableVirtualCursor(class APlayerController* PC);
 
-	UFUNCTION(BlueprintCallable, Category = "Game")
-	static void DisableVirtualCursor(class APlayerController* PC);
+	UFUNCTION(BlueprintCallable, Category = "Game", meta = (DisplayName = "(Global) Disable Virtual Cursor"))
+	static void Global_DisableVirtualCursor(class APlayerController* PC);
 
-	UFUNCTION(BlueprintPure, Category="Game")
-	static bool IsCursorOverInteractableWidget();
+	UFUNCTION(BlueprintPure, Category="Game", meta = (DisplayName = "(Global) Is Cursor Over Interactable Widget"))
+	static bool Global_IsCursorOverInteractableWidget(class APlayerController* PC);
 };

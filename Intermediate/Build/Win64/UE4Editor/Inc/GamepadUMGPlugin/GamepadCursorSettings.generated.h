@@ -1,11 +1,11 @@
-// Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
+// Copyright Epic Games, Inc. All Rights Reserved.
 /*===========================================================================
 	Generated code exported from UnrealHeaderTool.
 	DO NOT modify this manually! Edit the corresponding .h files instead!
 ===========================================================================*/
 
-#include "ObjectMacros.h"
-#include "ScriptMacros.h"
+#include "UObject/ObjectMacros.h"
+#include "UObject/ScriptMacros.h"
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #ifdef GAMEPADUMGPLUGIN_GamepadCursorSettings_generated_h
@@ -13,33 +13,32 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #endif
 #define GAMEPADUMGPLUGIN_GamepadCursorSettings_generated_h
 
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_RPC_WRAPPERS
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_RPC_WRAPPERS_NO_PURE_DECLS
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_INCLASS_NO_PURE_DECLS \
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_SPARSE_DATA
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_RPC_WRAPPERS
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_RPC_WRAPPERS_NO_PURE_DECLS
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUGamepadCursorSettings(); \
-	friend GAMEPADUMGPLUGIN_API class UClass* Z_Construct_UClass_UGamepadCursorSettings(); \
+	friend struct Z_Construct_UClass_UGamepadCursorSettings_Statics; \
 public: \
-	DECLARE_CLASS(UGamepadCursorSettings, UDeveloperSettings, COMPILED_IN_FLAGS(0 | CLASS_DefaultConfig | CLASS_Config), 0, TEXT("/Script/GamepadUMGPlugin"), NO_API) \
+	DECLARE_CLASS(UGamepadCursorSettings, UDeveloperSettings, COMPILED_IN_FLAGS(0 | CLASS_DefaultConfig | CLASS_Config), CASTCLASS_None, TEXT("/Script/GamepadUMGPlugin"), NO_API) \
 	DECLARE_SERIALIZER(UGamepadCursorSettings) \
-	enum {IsIntrinsic=COMPILED_IN_INTRINSIC}; \
 	static const TCHAR* StaticConfigName() {return TEXT("Game");} \
 
 
 
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_INCLASS \
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_INCLASS \
 private: \
 	static void StaticRegisterNativesUGamepadCursorSettings(); \
-	friend GAMEPADUMGPLUGIN_API class UClass* Z_Construct_UClass_UGamepadCursorSettings(); \
+	friend struct Z_Construct_UClass_UGamepadCursorSettings_Statics; \
 public: \
-	DECLARE_CLASS(UGamepadCursorSettings, UDeveloperSettings, COMPILED_IN_FLAGS(0 | CLASS_DefaultConfig | CLASS_Config), 0, TEXT("/Script/GamepadUMGPlugin"), NO_API) \
+	DECLARE_CLASS(UGamepadCursorSettings, UDeveloperSettings, COMPILED_IN_FLAGS(0 | CLASS_DefaultConfig | CLASS_Config), CASTCLASS_None, TEXT("/Script/GamepadUMGPlugin"), NO_API) \
 	DECLARE_SERIALIZER(UGamepadCursorSettings) \
-	enum {IsIntrinsic=COMPILED_IN_INTRINSIC}; \
 	static const TCHAR* StaticConfigName() {return TEXT("Game");} \
 
 
 
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_STANDARD_CONSTRUCTORS \
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UGamepadCursorSettings(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UGamepadCursorSettings) \
@@ -52,7 +51,7 @@ private: \
 public:
 
 
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_ENHANCED_CONSTRUCTORS \
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UGamepadCursorSettings(UGamepadCursorSettings&&); \
@@ -63,7 +62,7 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UGamepadCursorSettings); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UGamepadCursorSettings)
 
 
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_PRIVATE_PROPERTY_OFFSET \
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_PRIVATE_PROPERTY_OFFSET \
 	FORCEINLINE static uint32 __PPO__AnalogCursorAccelerationCurve() { return STRUCT_OFFSET(UGamepadCursorSettings, AnalogCursorAccelerationCurve); } \
 	FORCEINLINE static uint32 __PPO__MaxAnalogCursorSpeed() { return STRUCT_OFFSET(UGamepadCursorSettings, MaxAnalogCursorSpeed); } \
 	FORCEINLINE static uint32 __PPO__MaxAnalogCursorSpeedWhenHovered() { return STRUCT_OFFSET(UGamepadCursorSettings, MaxAnalogCursorSpeedWhenHovered); } \
@@ -77,31 +76,35 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UGamepadCursorSettings); \
 	FORCEINLINE static uint32 __PPO__bAnalogCursorNoAcceleration() { return STRUCT_OFFSET(UGamepadCursorSettings, bAnalogCursorNoAcceleration); }
 
 
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_23_PROLOG
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_GENERATED_BODY_LEGACY \
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_24_PROLOG
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_PRIVATE_PROPERTY_OFFSET \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_RPC_WRAPPERS \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_INCLASS \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_STANDARD_CONSTRUCTORS \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_PRIVATE_PROPERTY_OFFSET \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_SPARSE_DATA \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_RPC_WRAPPERS \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_INCLASS \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_GENERATED_BODY \
+#define UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_PRIVATE_PROPERTY_OFFSET \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_RPC_WRAPPERS_NO_PURE_DECLS \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_INCLASS_NO_PURE_DECLS \
-	GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_26_ENHANCED_CONSTRUCTORS \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_PRIVATE_PROPERTY_OFFSET \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_SPARSE_DATA \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_INCLASS_NO_PURE_DECLS \
+	UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h_27_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
+template<> GAMEPADUMGPLUGIN_API UClass* StaticClass<class UGamepadCursorSettings>();
+
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID GIT_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h
+#define CURRENT_FILE_ID UE4GamepadUMG_Plugins_GamepadUMGPlugin_Source_GamepadUMGPlugin_Public_GamepadCursorSettings_h
 
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

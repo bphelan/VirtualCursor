@@ -2,24 +2,31 @@
 	This code was written by Nick Darnell
 	
 	Plugin created by Rama
+	Modified by Nicholas Helish
 */
 #pragma once
 
 #include "AnalogCursor.h"
 
-class FGameAnalogCursor : public FAnalogCursor
+class GAMEPADUMGPLUGIN_API FGameAnalogCursor : public FAnalogCursor
 {
 public:
-
-	GAMEPADUMGPLUGIN_API static void EnableAnalogCursor(class APlayerController* PC, TSharedPtr<SWidget> WidgetToFocus);
-	GAMEPADUMGPLUGIN_API static void DisableAnalogCursor(class APlayerController* PC);
 	
 	/** Ctor */
+	FGameAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorld, float _Radius);
 	FGameAnalogCursor(class APlayerController* PC, float _Radius);
 
 	/** Dtor */
 	virtual ~FGameAnalogCursor()
 	{}
+
+	virtual int32 GetOwnerUserIndex() const override;
+
+	virtual bool HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent) override;
+	virtual bool HandleKeyUpEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent) override;
+	virtual bool HandleAnalogInputEvent(FSlateApplication& SlateApp, const FAnalogInputEvent& InAnalogInputEvent) override;
+	virtual bool HandleMouseButtonDownEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent) override;
+	virtual bool HandleMouseButtonUpEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent) override;
 
 	/** Uses different logic than base cursor */
 	virtual void Tick(const float DeltaTime, FSlateApplication& SlateApp, TSharedRef<ICursor> Cursor) override;
@@ -66,6 +73,8 @@ public:
 		return Radius;
 	}
 
+	uint8 bAnalogDebug : 1;
+
 private:
 
 	/** Helper Function. Takes in values from the analog stick, returns a vector that represents acceleration */
@@ -91,4 +100,8 @@ private:
 
 	/** The Player's Context */
 	FLocalPlayerContext PlayerContext;
+
+	TSet<FKey> PressedKeys;
+
 };
+

@@ -1,11 +1,10 @@
-// Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
+// Copyright Epic Games, Inc. All Rights Reserved.
 /*===========================================================================
 	Generated code exported from UnrealHeaderTool.
 	DO NOT modify this manually! Edit the corresponding .h files instead!
 ===========================================================================*/
 
-#include "GeneratedCppIncludes.h"
-#include "Private/GamepadUMGPluginPrivatePCH.h"
+#include "UObject/GeneratedCppIncludes.h"
 #ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4883)
@@ -19,10 +18,11 @@ void EmptyLinkFunctionForGeneratedCodeGamepadUMGPlugin_init() {}
 		{
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/GamepadUMGPlugin",
+				nullptr,
+				0,
 				PKG_CompiledIn | 0x00000000,
-				0x1E927C62,
-				0x4E7200DD,
-				nullptr, 0,
+				0x1B1992A1,
+				0x2B369C56,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UE4CodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);
