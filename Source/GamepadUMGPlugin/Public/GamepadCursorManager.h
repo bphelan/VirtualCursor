@@ -37,6 +37,9 @@ public:
 	void DisableAnalogCursor();
 
 	UFUNCTION(BlueprintCallable, Category = "Cursor")
+	void ToggleCursorDebug();
+
+	UFUNCTION(BlueprintCallable, Category = "Cursor")
 	void ToggleAnalogDebug();
 
 	UFUNCTION(BlueprintPure, Category = "Cursor")
@@ -53,3 +56,4 @@ private:
 	TSharedPtr<FGameAnalogCursor> Cursor;
 
 };
+

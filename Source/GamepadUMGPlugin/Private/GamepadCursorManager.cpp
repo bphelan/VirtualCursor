@@ -63,6 +63,14 @@ void UGamepadCursorManager::DisableAnalogCursor()
 	}
 }
 
+void UGamepadCursorManager::ToggleCursorDebug()
+{
+	if (IsCursorValid())
+	{
+		Cursor->bDebugging = !Cursor->bDebugging;
+	}
+}
+
 void UGamepadCursorManager::ToggleAnalogDebug()
 {
 	if (IsCursorValid())

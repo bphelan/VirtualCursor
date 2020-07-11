@@ -47,6 +47,13 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		P_THIS->ToggleAnalogDebug();
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(UGamepadCursorManager::execToggleCursorDebug)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		P_THIS->ToggleCursorDebug();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(UGamepadCursorManager::execDisableAnalogCursor)
 	{
 		P_FINISH;
@@ -71,6 +78,7 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 			{ "IsCursorOverInteractableWidget", &UGamepadCursorManager::execIsCursorOverInteractableWidget },
 			{ "IsCursorValid", &UGamepadCursorManager::execIsCursorValid },
 			{ "ToggleAnalogDebug", &UGamepadCursorManager::execToggleAnalogDebug },
+			{ "ToggleCursorDebug", &UGamepadCursorManager::execToggleCursorDebug },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, UE_ARRAY_COUNT(Funcs));
 	}
@@ -257,6 +265,29 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Cursor" },
+		{ "ModuleRelativePath", "Public/GamepadCursorManager.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGamepadCursorManager, nullptr, "ToggleCursorDebug", nullptr, nullptr, 0, nullptr, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	UClass* Z_Construct_UClass_UGamepadCursorManager_NoRegister()
 	{
 		return UGamepadCursorManager::StaticClass();
@@ -282,6 +313,7 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		{ &Z_Construct_UFunction_UGamepadCursorManager_IsCursorOverInteractableWidget, "IsCursorOverInteractableWidget" }, // 1051587231
 		{ &Z_Construct_UFunction_UGamepadCursorManager_IsCursorValid, "IsCursorValid" }, // 868568175
 		{ &Z_Construct_UFunction_UGamepadCursorManager_ToggleAnalogDebug, "ToggleAnalogDebug" }, // 4024692921
+		{ &Z_Construct_UFunction_UGamepadCursorManager_ToggleCursorDebug, "ToggleCursorDebug" }, // 343315609
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UGamepadCursorManager_Statics::Class_MetaDataParams[] = {
@@ -319,7 +351,7 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UGamepadCursorManager, 2331200183);
+	IMPLEMENT_CLASS(UGamepadCursorManager, 4244526042);
 	template<> GAMEPADUMGPLUGIN_API UClass* StaticClass<UGamepadCursorManager>()
 	{
 		return UGamepadCursorManager::StaticClass();

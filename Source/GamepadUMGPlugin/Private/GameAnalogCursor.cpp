@@ -21,7 +21,8 @@ bool IsWidgetInteractable(const TSharedPtr<SWidget> Widget)
 ////////////////////////////////////////////////////////////////////////////
 
 FGameAnalogCursor::FGameAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorld, float _Radius)
-	: bAnalogDebug(false)
+	: bDebugging(false)
+	, bAnalogDebug(false)
 	, Velocity(FVector2D::ZeroVector)
 	, CurrentPosition(FLT_MAX, FLT_MAX)
 	, LastCursorDirection(FVector2D::ZeroVector)
@@ -34,7 +35,8 @@ FGameAnalogCursor::FGameAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorl
 }
 
 FGameAnalogCursor::FGameAnalogCursor(class APlayerController* PC, float _Radius)
-: bAnalogDebug(false)
+: bDebugging(false)
+, bAnalogDebug(false)
 , Velocity(FVector2D::ZeroVector)
 , CurrentPosition(FLT_MAX, FLT_MAX)
 , LastCursorDirection(FVector2D::ZeroVector)
@@ -60,12 +62,18 @@ bool FGameAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FK
 	const FKey PressedKey = InKeyEvent.GetKey();
 	if (PressedKeys.Contains(PressedKey))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "KEY: " + PressedKey.ToString() + " Held");
+		if (bDebugging)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "KEY: " + PressedKey.ToString() + " Held");
+		}
 	}
 	else
 	{
 		PressedKeys.Add(PressedKey);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "KEY: " + PressedKey.ToString() + " Pressed");
+		if (bDebugging)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "KEY: " + PressedKey.ToString() + " Pressed");
+		}
 	}
 	return FAnalogCursor::HandleKeyDownEvent(SlateApp, InKeyEvent);
 }
@@ -73,14 +81,17 @@ bool FGameAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FK
 bool FGameAnalogCursor::HandleKeyUpEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
 {
 	const FKey ReleasedKey = InKeyEvent.GetKey();
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "KEY: " + ReleasedKey.ToString() + " Released");
+	if (bDebugging)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "KEY: " + ReleasedKey.ToString() + " Released");
+	}
 	PressedKeys.Remove(ReleasedKey);
 	return FAnalogCursor::HandleKeyUpEvent(SlateApp, InKeyEvent);
 }
 
 bool FGameAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, const FAnalogInputEvent& InAnalogInputEvent)
 {
-	if (bAnalogDebug)
+	if (bAnalogDebug && bDebugging)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "ANALOG: " + InAnalogInputEvent.GetKey().ToString());
 	}
@@ -92,12 +103,18 @@ bool FGameAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, 
 	const FKey PressedKey = MouseEvent.GetEffectingButton();
 	if (PressedKeys.Contains(PressedKey))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "MOUSE: " + PressedKey.ToString() + " Held");
+		if (bDebugging)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, "MOUSE: " + PressedKey.ToString() + " Held");
+		}
 	}
 	else
 	{
 		PressedKeys.Add(PressedKey);
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "MOUSE: " + PressedKey.ToString() + " Pressed");
+		if (bDebugging)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "MOUSE: " + PressedKey.ToString() + " Pressed");
+		}
 	}
 	return false;
 }
@@ -105,7 +122,10 @@ bool FGameAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, 
 bool FGameAnalogCursor::HandleMouseButtonUpEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
 {
 	const FKey ReleasedKey = MouseEvent.GetEffectingButton();
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "MOUSE: " + ReleasedKey.ToString() + " Released");
+	if (bDebugging)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "MOUSE: " + ReleasedKey.ToString() + " Released");
+	}
 	PressedKeys.Remove(ReleasedKey);
 	return false;
 }

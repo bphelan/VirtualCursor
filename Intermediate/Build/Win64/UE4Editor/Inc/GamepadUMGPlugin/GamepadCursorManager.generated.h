@@ -20,6 +20,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	DECLARE_FUNCTION(execIsCursorValid); \
 	DECLARE_FUNCTION(execIsCursorOverInteractableWidget); \
 	DECLARE_FUNCTION(execToggleAnalogDebug); \
+	DECLARE_FUNCTION(execToggleCursorDebug); \
 	DECLARE_FUNCTION(execDisableAnalogCursor); \
 	DECLARE_FUNCTION(execEnableAnalogCursor);
 
@@ -30,6 +31,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	DECLARE_FUNCTION(execIsCursorValid); \
 	DECLARE_FUNCTION(execIsCursorOverInteractableWidget); \
 	DECLARE_FUNCTION(execToggleAnalogDebug); \
+	DECLARE_FUNCTION(execToggleCursorDebug); \
 	DECLARE_FUNCTION(execDisableAnalogCursor); \
 	DECLARE_FUNCTION(execEnableAnalogCursor);
 

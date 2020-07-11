@@ -71,7 +71,9 @@ public:
 	FORCEINLINE float GetRadius() const
 	{
 		return Radius;
-	}
+	}	
+
+	uint8 bDebugging : 1;
 
 	uint8 bAnalogDebug : 1;
 
