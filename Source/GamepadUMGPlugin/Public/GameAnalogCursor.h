@@ -6,7 +6,7 @@
 */
 #pragma once
 
-#include "AnalogCursor.h"
+#include "Framework/Application/AnalogCursor.h"
 
 class GAMEPADUMGPLUGIN_API FGameAnalogCursor : public FAnalogCursor
 {

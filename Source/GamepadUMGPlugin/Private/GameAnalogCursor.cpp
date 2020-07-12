@@ -6,7 +6,7 @@
 */
 #include "GameAnalogCursor.h"
 #include "GamepadCursorSettings.h"
-#include "WidgetLayoutLibrary.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "Engine/UserInterfaceSettings.h"
 #include "GamepadCursorManager.h"
 #include "Engine/Engine.h"
