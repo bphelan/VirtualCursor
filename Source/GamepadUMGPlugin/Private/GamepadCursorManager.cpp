@@ -13,8 +13,10 @@
 
 DEFINE_LOG_CATEGORY(LogGamepadCursorManager);
 
-// Helper macro for getting the settings without editing the settings, USE GetMutableDefault if you want to edit the settings in code
+// Helper macro for getting the settings without being able to edit the settings
 #define GET_SETTINGS GetDefault<UGamepadCursorSettings>()
+// Helper macro for getting the settings while being able to edit the settings
+#define GET_SETTINGS_EDIT GetMutableDefault<UGamepadCursorSettings>()
 
 void UGamepadCursorManager::Initialize(FSubsystemCollectionBase& Collection)
 {
@@ -68,6 +70,8 @@ void UGamepadCursorManager::ToggleCursorDebug()
 	if (IsCursorValid())
 	{
 		Cursor->bDebugging = !Cursor->bDebugging;
+		const FString BoolResult = ((Cursor->bDebugging) ? "true" : "false");
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Emerald, "Cursor Debug: " + BoolResult);
 	}
 }
 

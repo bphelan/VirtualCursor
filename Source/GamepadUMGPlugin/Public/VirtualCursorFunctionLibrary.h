@@ -17,8 +17,8 @@ class GAMEPADUMGPLUGIN_API UVirtualCursorFunctionLibrary : public UBlueprintFunc
 {
 	GENERATED_BODY()
 
-public:
-	
+public:	
+
 	UFUNCTION(BlueprintCallable, Category="Game", meta = (DisplayName = "(Global) Enable Virtual Cursor"))
 	static void Global_EnableVirtualCursor(class APlayerController* PC);
 

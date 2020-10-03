@@ -11,6 +11,11 @@
 #include "GamepadCursorManager.h"
 #include "Engine/Engine.h"
 
+// Helper macro for getting the settings without being able to edit the settings
+#define GET_SETTINGS GetDefault<UGamepadCursorSettings>()
+// Helper macro for getting the settings while being able to edit the settings
+#define GET_SETTINGS_EDIT GetMutableDefault<UGamepadCursorSettings>()
+
 bool IsWidgetInteractable(const TSharedPtr<SWidget> Widget)
 {
 	return Widget.IsValid() && Widget->IsInteractable();
@@ -49,7 +54,7 @@ FGameAnalogCursor::FGameAnalogCursor(class APlayerController* PC, float _Radius)
 }
 
 int32 FGameAnalogCursor::GetOwnerUserIndex() const
-{	
+{		
 	if (ULocalPlayer* LP = PlayerContext.GetLocalPlayer())
 	{
 		return LP->GetControllerId();
@@ -59,8 +64,16 @@ int32 FGameAnalogCursor::GetOwnerUserIndex() const
 
 bool FGameAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
 {
-	const FKey PressedKey = InKeyEvent.GetKey();
-	if (PressedKeys.Contains(PressedKey))
+	// So we only read from the correct player index(to handle for local coop)
+	if (!IsRelevantInput(InKeyEvent))
+	{
+		// If the index of whoever pressed a key is not this cursor's index then its another local player(so they dont control the inputs)
+		return false;
+	}
+
+	const FKey& PressedKey = InKeyEvent.GetKey();
+
+	if (InKeyEvent.IsRepeat())
 	{
 		if (bDebugging)
 		{
@@ -75,22 +88,39 @@ bool FGameAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FK
 			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "KEY: " + PressedKey.ToString() + " Pressed");
 		}
 	}
+
 	return FAnalogCursor::HandleKeyDownEvent(SlateApp, InKeyEvent);
 }
 
 bool FGameAnalogCursor::HandleKeyUpEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
 {
-	const FKey ReleasedKey = InKeyEvent.GetKey();
+	// So we only read from the correct player index(to handle for local coop)
+	if (!IsRelevantInput(InKeyEvent))
+	{
+		// If the index of whoever pressed a key is not this cursor's index then its another local player(so they dont control the inputs)
+		return false;
+	}
+
+	const FKey& ReleasedKey = InKeyEvent.GetKey();
+
+	PressedKeys.Remove(ReleasedKey);
 	if (bDebugging)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "KEY: " + ReleasedKey.ToString() + " Released");
 	}
-	PressedKeys.Remove(ReleasedKey);
+
 	return FAnalogCursor::HandleKeyUpEvent(SlateApp, InKeyEvent);
 }
 
 bool FGameAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, const FAnalogInputEvent& InAnalogInputEvent)
 {
+	// So we only read from the correct player index(to handle for local coop)
+	if (!IsRelevantInput(InAnalogInputEvent))
+	{
+		// If the index of whoever pressed a key is not this cursor's index then its another local player(so they dont control the inputs)
+		return false;
+	}
+
 	if (bAnalogDebug && bDebugging)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "ANALOG: " + InAnalogInputEvent.GetKey().ToString());
@@ -100,7 +130,14 @@ bool FGameAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, cons
 
 bool FGameAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
 {
-	const FKey PressedKey = MouseEvent.GetEffectingButton();
+	// So we only read from the correct player index(to handle for local coop)
+	if (!IsRelevantInput(MouseEvent))
+	{
+		// If the index of whoever pressed a key is not this cursor's index then its another local player(so they dont control the inputs)
+		return false;
+	}
+
+	const FKey& PressedKey = MouseEvent.GetEffectingButton();
 	if (PressedKeys.Contains(PressedKey))
 	{
 		if (bDebugging)
@@ -121,7 +158,14 @@ bool FGameAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, 
 
 bool FGameAnalogCursor::HandleMouseButtonUpEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
 {
-	const FKey ReleasedKey = MouseEvent.GetEffectingButton();
+	// So we only read from the correct player index(to handle for local coop)
+	if (!IsRelevantInput(MouseEvent))
+	{
+		// If the index of whoever pressed a key is not this cursor's index then its another local player(so they dont control the inputs)
+		return false;
+	}
+
+	const FKey& ReleasedKey = MouseEvent.GetEffectingButton();
 	if (bDebugging)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, "MOUSE: " + ReleasedKey.ToString() + " Released");
@@ -137,7 +181,7 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 		const FVector2D ViewportSize = UWidgetLayoutLibrary::GetViewportSize(PlayerContext.GetPlayerController());
 		const float DPIScale = GetDefault<UUserInterfaceSettings>()->GetDPIScaleBasedOnSize(FIntPoint(FMath::RoundToInt(ViewportSize.X), FMath::RoundToInt(ViewportSize.Y)));
 		
-		const UGamepadCursorSettings* Settings = GetDefault<UGamepadCursorSettings>();
+		const UGamepadCursorSettings* Settings = GET_SETTINGS;
 
 		// If we have no acceleration curve, then move on;
 		if (Settings->GetUseEngineAnalogCursor())
@@ -253,7 +297,7 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 
 FVector2D FGameAnalogCursor::GetAnalogCursorAccelerationValue(const FVector2D& InAnalogValues, float DPIScale)
 {
-	const UGamepadCursorSettings* Settings = GetDefault<UGamepadCursorSettings>();
+	const UGamepadCursorSettings* Settings = GET_SETTINGS;
 
 	FVector2D RetValue = FVector2D::ZeroVector;
 	if ( const FRichCurve* AccelerationCurve = Settings->GetAnalogCursorAccelerationCurve() )

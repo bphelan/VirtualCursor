@@ -20,6 +20,7 @@ public:
 	virtual ~FGameAnalogCursor()
 	{}
 
+	/** So incase somebody wants to extend this to support multiple "cursors" for multiple players :) */
 	virtual int32 GetOwnerUserIndex() const override;
 
 	virtual bool HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent) override;
