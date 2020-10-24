@@ -121,7 +121,7 @@ bool FGameAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, cons
 		return false;
 	}
 
-	if (bAnalogDebug && bDebugging)
+	if (bAnalogDebug)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "ANALOG: " + InAnalogInputEvent.GetKey().ToString());
 	}

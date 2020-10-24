@@ -2,10 +2,10 @@
 	"RemapUnityFiles": 
 	{
 		"Module.GamepadUMGPlugin.cpp.obj": [
-			"GameAnalogCursor.cpp.obj",
-			"GamepadCursorManager.cpp.obj",
 			"GamepadUMGPlugin.cpp.obj",
-			"VirtualCursorFunctionLibrary.cpp.obj"
+			"VirtualCursorFunctionLibrary.cpp.obj",
+			"GameAnalogCursor.cpp.obj",
+			"GamepadCursorManager.cpp.obj"
 		],
 		"Module.GamepadUMGPlugin.gen.cpp.obj": [
 			"GamepadCursorManager.gen.cpp.obj",

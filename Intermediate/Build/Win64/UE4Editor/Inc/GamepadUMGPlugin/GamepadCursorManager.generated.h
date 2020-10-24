@@ -19,6 +19,8 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	DECLARE_FUNCTION(execContainsGamepadCursorInputProcessor); \
 	DECLARE_FUNCTION(execIsCursorValid); \
 	DECLARE_FUNCTION(execIsCursorOverInteractableWidget); \
+	DECLARE_FUNCTION(execIsAnalogDebugActive); \
+	DECLARE_FUNCTION(execIsCursorDebugActive); \
 	DECLARE_FUNCTION(execToggleAnalogDebug); \
 	DECLARE_FUNCTION(execToggleCursorDebug); \
 	DECLARE_FUNCTION(execDisableAnalogCursor); \
@@ -30,6 +32,8 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	DECLARE_FUNCTION(execContainsGamepadCursorInputProcessor); \
 	DECLARE_FUNCTION(execIsCursorValid); \
 	DECLARE_FUNCTION(execIsCursorOverInteractableWidget); \
+	DECLARE_FUNCTION(execIsAnalogDebugActive); \
+	DECLARE_FUNCTION(execIsCursorDebugActive); \
 	DECLARE_FUNCTION(execToggleAnalogDebug); \
 	DECLARE_FUNCTION(execToggleCursorDebug); \
 	DECLARE_FUNCTION(execDisableAnalogCursor); \

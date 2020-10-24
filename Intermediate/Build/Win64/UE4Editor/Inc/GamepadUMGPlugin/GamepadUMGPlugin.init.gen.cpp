@@ -21,7 +21,7 @@ void EmptyLinkFunctionForGeneratedCodeGamepadUMGPlugin_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0x958CF7A2,
+				0x46C69EC3,
 				0x2B369C56,
 				METADATA_PARAMS(nullptr, 0)
 			};

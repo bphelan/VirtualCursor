@@ -85,6 +85,24 @@ void UGamepadCursorManager::ToggleAnalogDebug()
 	}
 }
 
+bool UGamepadCursorManager::IsCursorDebugActive() const
+{
+	if (IsCursorValid())
+	{
+		return Cursor->bDebugging;
+	}
+	return false;
+}
+
+bool UGamepadCursorManager::IsAnalogDebugActive() const
+{
+	if (IsCursorValid())
+	{
+		return Cursor->bAnalogDebug;
+	}
+	return false;
+}
+
 bool UGamepadCursorManager::IsCursorOverInteractableWidget() const
 {
 	if (IsCursorValid())

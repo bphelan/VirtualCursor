@@ -40,6 +40,20 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		*(bool*)Z_Param__Result=P_THIS->IsCursorOverInteractableWidget();
 		P_NATIVE_END;
 	}
+	DEFINE_FUNCTION(UGamepadCursorManager::execIsAnalogDebugActive)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(bool*)Z_Param__Result=P_THIS->IsAnalogDebugActive();
+		P_NATIVE_END;
+	}
+	DEFINE_FUNCTION(UGamepadCursorManager::execIsCursorDebugActive)
+	{
+		P_FINISH;
+		P_NATIVE_BEGIN;
+		*(bool*)Z_Param__Result=P_THIS->IsCursorDebugActive();
+		P_NATIVE_END;
+	}
 	DEFINE_FUNCTION(UGamepadCursorManager::execToggleAnalogDebug)
 	{
 		P_FINISH;
@@ -75,6 +89,8 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 			{ "ContainsGamepadCursorInputProcessor", &UGamepadCursorManager::execContainsGamepadCursorInputProcessor },
 			{ "DisableAnalogCursor", &UGamepadCursorManager::execDisableAnalogCursor },
 			{ "EnableAnalogCursor", &UGamepadCursorManager::execEnableAnalogCursor },
+			{ "IsAnalogDebugActive", &UGamepadCursorManager::execIsAnalogDebugActive },
+			{ "IsCursorDebugActive", &UGamepadCursorManager::execIsCursorDebugActive },
 			{ "IsCursorOverInteractableWidget", &UGamepadCursorManager::execIsCursorOverInteractableWidget },
 			{ "IsCursorValid", &UGamepadCursorManager::execIsCursorValid },
 			{ "ToggleAnalogDebug", &UGamepadCursorManager::execToggleAnalogDebug },
@@ -163,6 +179,86 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UGamepadCursorManager_EnableAnalogCursor_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics
+	{
+		struct GamepadCursorManager_eventIsAnalogDebugActive_Parms
+		{
+			bool ReturnValue;
+		};
+		static void NewProp_ReturnValue_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::NewProp_ReturnValue_SetBit(void* Obj)
+	{
+		((GamepadCursorManager_eventIsAnalogDebugActive_Parms*)Obj)->ReturnValue = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(GamepadCursorManager_eventIsAnalogDebugActive_Parms), &Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Cursor" },
+		{ "Comment", "/** \n\x09* Returns true if the analog cursor debug flag is on/off \n\x09* Prints an onscreen debug message when an analog input occurs(for example: thumbstick on x/y)\n\x09*/" },
+		{ "ModuleRelativePath", "Public/GamepadCursorManager.h" },
+		{ "ToolTip", "Returns true if the analog cursor debug flag is on/off\nPrints an onscreen debug message when an analog input occurs(for example: thumbstick on x/y)" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGamepadCursorManager, nullptr, "IsAnalogDebugActive", nullptr, nullptr, sizeof(GamepadCursorManager_eventIsAnalogDebugActive_Parms), Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x54020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics
+	{
+		struct GamepadCursorManager_eventIsCursorDebugActive_Parms
+		{
+			bool ReturnValue;
+		};
+		static void NewProp_ReturnValue_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::NewProp_ReturnValue_SetBit(void* Obj)
+	{
+		((GamepadCursorManager_eventIsCursorDebugActive_Parms*)Obj)->ReturnValue = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(GamepadCursorManager_eventIsCursorDebugActive_Parms), &Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Cursor" },
+		{ "Comment", "/** \n\x09* Returns true if the analog cursor input preprocessor debug flag is on/off \n\x09* Prints an onscreen debug message when a key/button is pressed\n\x09*/" },
+		{ "ModuleRelativePath", "Public/GamepadCursorManager.h" },
+		{ "ToolTip", "Returns true if the analog cursor input preprocessor debug flag is on/off\nPrints an onscreen debug message when a key/button is pressed" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UGamepadCursorManager, nullptr, "IsCursorDebugActive", nullptr, nullptr, sizeof(GamepadCursorManager_eventIsCursorDebugActive_Parms), Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::PropPointers), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x54020401, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::Function_MetaDataParams, UE_ARRAY_COUNT(Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -310,6 +406,8 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		{ &Z_Construct_UFunction_UGamepadCursorManager_ContainsGamepadCursorInputProcessor, "ContainsGamepadCursorInputProcessor" }, // 1945308327
 		{ &Z_Construct_UFunction_UGamepadCursorManager_DisableAnalogCursor, "DisableAnalogCursor" }, // 3656533483
 		{ &Z_Construct_UFunction_UGamepadCursorManager_EnableAnalogCursor, "EnableAnalogCursor" }, // 1000103319
+		{ &Z_Construct_UFunction_UGamepadCursorManager_IsAnalogDebugActive, "IsAnalogDebugActive" }, // 1897944079
+		{ &Z_Construct_UFunction_UGamepadCursorManager_IsCursorDebugActive, "IsCursorDebugActive" }, // 315412170
 		{ &Z_Construct_UFunction_UGamepadCursorManager_IsCursorOverInteractableWidget, "IsCursorOverInteractableWidget" }, // 1051587231
 		{ &Z_Construct_UFunction_UGamepadCursorManager_IsCursorValid, "IsCursorValid" }, // 868568175
 		{ &Z_Construct_UFunction_UGamepadCursorManager_ToggleAnalogDebug, "ToggleAnalogDebug" }, // 4024692921
@@ -351,7 +449,7 @@ void EmptyLinkFunctionForGeneratedCodeGamepadCursorManager() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UGamepadCursorManager, 4244526042);
+	IMPLEMENT_CLASS(UGamepadCursorManager, 1916512543);
 	template<> GAMEPADUMGPLUGIN_API UClass* StaticClass<UGamepadCursorManager>()
 	{
 		return UGamepadCursorManager::StaticClass();

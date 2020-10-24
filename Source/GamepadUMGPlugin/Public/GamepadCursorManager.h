@@ -42,6 +42,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Cursor")
 	void ToggleAnalogDebug();
 
+	/** 
+	* Returns true if the analog cursor input preprocessor debug flag is on/off 
+	* Prints an onscreen debug message when a key/button is pressed
+	*/
+	UFUNCTION(BlueprintPure, Category = "Cursor")
+	bool IsCursorDebugActive() const;
+
+	/** 
+	* Returns true if the analog cursor debug flag is on/off 
+	* Prints an onscreen debug message when an analog input occurs(for example: thumbstick on x/y)
+	*/
+	UFUNCTION(BlueprintPure, Category = "Cursor")
+	bool IsAnalogDebugActive() const;
+
 	UFUNCTION(BlueprintPure, Category = "Cursor")
 	bool IsCursorOverInteractableWidget() const;
 
