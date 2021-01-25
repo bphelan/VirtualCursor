@@ -1,0 +1,23 @@
+
+# Compiler output
+Binaries/
+Intermediate/
+
+# Project files
+*.xcodeproj
+*.xcworkspace
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+.idea/
+.vscode/
+.vs/
+
+# Misc OS artifacts
+Thumbs.db
+desktop.ini
+.DS_Store
+
