@@ -5,7 +5,7 @@ public class VirtualCursor : ModuleRules
 {
     public VirtualCursor(ReadOnlyTargetRules Target) : base(Target)
     {
-        // PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public"));
         PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private"));
@@ -15,7 +15,8 @@ public class VirtualCursor : ModuleRules
 				"Core", 
 				"CoreUObject", 
 				"Engine", 
-				"InputCore"
+				"InputCore",
+				"DeveloperSettings"
 			});
 
         PrivateDependencyModuleNames.AddRange(
