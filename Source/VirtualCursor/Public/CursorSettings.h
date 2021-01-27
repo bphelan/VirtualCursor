@@ -1,34 +1,20 @@
-/*
-	This code was written by Nick Darnell
-
-	Plugin created by Rama
-	Modified by Nicholas Helish
-*/
 #pragma once
 
 #include "Engine/DeveloperSettings.h"
 
-#include "GamepadCursorSettings.generated.h"
+#include "CursorSettings.generated.h"
 
-class FGameAnalogCursor;
+class FExtendedAnalogCursor;
 
-/**
- *  These settings are used with the Gamepad UMG Plugin!
- *
- *  Epic Developer Nick Darnell wrote this Gamepad-friendly UMG code!
- *
- *  I simply compiled the code into a plugin :) 
- *
- *  <3 Rama
- */
+
 UCLASS(config=Game, defaultconfig)
-class GAMEPADUMGPLUGIN_API UGamepadCursorSettings : public UDeveloperSettings
+class VIRTUALCURSOR_API UCursorSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
 public:
- 
-	UGamepadCursorSettings()
+
+	UCursorSettings()
 	{
 		MaxAnalogCursorSpeed = 1300.0f;
 		MaxAnalogCursorSpeedWhenHovered = 650.0f;
@@ -43,70 +29,84 @@ public:
 		AnalogCursorAccelerationCurve.EditorCurveData.AddKey(1, 1);
 	}
 
+
 	FORCEINLINE const FRichCurve* GetAnalogCursorAccelerationCurve() const
 	{
 		return AnalogCursorAccelerationCurve.GetRichCurveConst();
 	}
-	
+
+
 	FORCEINLINE float GetMaxAnalogCursorSpeed() const
 	{
 		return MaxAnalogCursorSpeed;
 	}
+
 
 	FORCEINLINE float GetMaxAnalogCursorSpeedWhenHovered() const
 	{
 		return MaxAnalogCursorSpeedWhenHovered;
 	}
 
+
 	FORCEINLINE float GetAnalogCursorDragCoefficient() const
 	{
 		return FMath::Min<float>(AnalogCursorDragCoefficientWhenHovered, AnalogCursorDragCoefficient);
 	}
+
 
 	FORCEINLINE float GetAnalogCursorDragCoefficientWhenHovered() const
 	{
 		return FMath::Max<float>(AnalogCursorDragCoefficientWhenHovered, AnalogCursorDragCoefficient);
 	}
 
+
 	FORCEINLINE float GetMinAnalogCursorSpeed() const
 	{
 		return MinAnalogCursorSpeed;
 	}
+
 
 	FORCEINLINE float GetAnalogCursorAccelerationMultiplier() const
 	{
 		return AnalogCursorAccelerationMultiplier;
 	}
 
+
 	FORCEINLINE float GetAnalogCursorDeadZone() const
 	{
 		return AnalogCursorDeadZone;
 	}
+
 
 	FORCEINLINE float GetAnalogCursorSize() const
 	{
 		return FMath::Max<float>(AnalogCursorSize, 1.0f);
 	}
 
+
 	FORCEINLINE FVector2D GetAnalogCursorSizeVector() const
 	{
 		return FVector2D(GetAnalogCursorSize(), GetAnalogCursorSize());
 	}
+
 
 	FORCEINLINE float GetAnalogCursorRadius() const
 	{
 		return GetAnalogCursorSize() / 2.0f;
 	}
 
+
 	FORCEINLINE bool GetUseEngineAnalogCursor() const
 	{
 		return bUseEngineAnalogCursor;
 	}
 
+
 	FORCEINLINE bool GetAnalogCursorNoAcceleration() const
 	{
 		return bAnalogCursorNoAcceleration;
 	}
+
 
 private:
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta=(
@@ -114,7 +114,6 @@ private:
 		YAxisName="Acceleration" ))
 	FRuntimeFloatCurve AnalogCursorAccelerationCurve;
 
-	/** The max speed of the Analog Cursor */
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "1.0"))
 	float MaxAnalogCursorSpeed;
 
@@ -122,11 +121,9 @@ private:
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "1.0"))
 	float MaxAnalogCursorSpeedWhenHovered;
 
-	/** The coefficient of drag applied to the cursor */
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "0.0"))
 	float AnalogCursorDragCoefficient;
 
-	/** The coefficient of drag applied to the cursor when hovering */
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "0.0"))
 	float AnalogCursorDragCoefficientWhenHovered;
 
@@ -138,7 +135,6 @@ private:
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "0.0", ClampMax = "1.0"))
 	float AnalogCursorDeadZone;
 
-	/** Multiplied by the value spit out by the normalized acceleration curve */
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor", meta = (ClampMin = "1.0"))
 	float AnalogCursorAccelerationMultiplier;
 
@@ -150,7 +146,7 @@ private:
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor")
 	bool bUseEngineAnalogCursor;
 
-	/** If True, AnalogCursorAccelerationCurve will be used as a Velocity Curve */
+	/** If true, AnalogCursorAccelerationCurve will be used as a Velocity Curve */
 	UPROPERTY(config, EditAnywhere, Category = "Analog Cursor")
 	bool bAnalogCursorNoAcceleration;
 };

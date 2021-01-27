@@ -1,31 +1,17 @@
-/*
-	This code was written by Nick Darnell
-	
-	Plugin created by Rama
-	Modified by Nicholas Helish
-*/
-#include "GameAnalogCursor.h"
-#include "GamepadCursorSettings.h"
+#include "ExtendedAnalogCursor.h"
+#include "CursorSettings.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Engine/UserInterfaceSettings.h"
-#include "GamepadCursorManager.h"
 #include "Engine/Engine.h"
 
-// Helper macro for getting the settings without being able to edit the settings
-#define GET_SETTINGS GetDefault<UGamepadCursorSettings>()
-// Helper macro for getting the settings while being able to edit the settings
-#define GET_SETTINGS_EDIT GetMutableDefault<UGamepadCursorSettings>()
 
 bool IsWidgetInteractable(const TSharedPtr<SWidget> Widget)
 {
 	return Widget.IsValid() && Widget->IsInteractable();
 }
 
-////////////////////////////////////////////////////////////////////////////
-// FGameAnalogCursor
-////////////////////////////////////////////////////////////////////////////
 
-FGameAnalogCursor::FGameAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorld, float _Radius)
+FExtendedAnalogCursor::FExtendedAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorld, float _Radius)
 	: bDebugging(false)
 	, bAnalogDebug(false)
 	, Velocity(FVector2D::ZeroVector)
@@ -36,35 +22,38 @@ FGameAnalogCursor::FGameAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorl
 	, Radius(FMath::Max<float>(_Radius, 16.0f))
 	, PlayerContext(InLocalPlayer, InWorld)
 {
-	ensure(PlayerContext.IsValid());	
+	ensure(PlayerContext.IsValid());
 }
 
-FGameAnalogCursor::FGameAnalogCursor(class APlayerController* PC, float _Radius)
-: bDebugging(false)
-, bAnalogDebug(false)
-, Velocity(FVector2D::ZeroVector)
-, CurrentPosition(FLT_MAX, FLT_MAX)
-, LastCursorDirection(FVector2D::ZeroVector)
-, HoveredWidgetName(NAME_None)
-, bIsUsingAnalogCursor(false)
-, Radius(FMath::Max<float>(_Radius, 16.0f))
-, PlayerContext(PC)
+
+FExtendedAnalogCursor::FExtendedAnalogCursor(class APlayerController* PlayerController, float _Radius)
+	: bDebugging(false)
+	, bAnalogDebug(false)
+	, Velocity(FVector2D::ZeroVector)
+	, CurrentPosition(FLT_MAX, FLT_MAX)
+	, LastCursorDirection(FVector2D::ZeroVector)
+	, HoveredWidgetName(NAME_None)
+	, bIsUsingAnalogCursor(false)
+	, Radius(FMath::Max<float>(_Radius, 16.0f))
+	, PlayerContext(PlayerController)
 {
-	ensure(PlayerContext.IsValid());	
+	ensure(PlayerContext.IsValid());
 }
 
-int32 FGameAnalogCursor::GetOwnerUserIndex() const
-{		
-	if (ULocalPlayer* LP = PlayerContext.GetLocalPlayer())
+
+int32 FExtendedAnalogCursor::GetOwnerUserIndex() const
+{
+	if (ULocalPlayer* LocalPlayer = PlayerContext.GetLocalPlayer())
 	{
-		return LP->GetControllerId();
+		return LocalPlayer->GetControllerId();
 	}
 	return 0;
 }
 
-bool FGameAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
+
+bool FExtendedAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
 {
-	// So we only read from the correct player index(to handle for local coop)
+	// So we only read from the correct player index (to handle for local coop)
 	if (!IsRelevantInput(InKeyEvent))
 	{
 		// If the index of whoever pressed a key is not this cursor's index then its another local player(so they dont control the inputs)
@@ -92,7 +81,8 @@ bool FGameAnalogCursor::HandleKeyDownEvent(FSlateApplication& SlateApp, const FK
 	return FAnalogCursor::HandleKeyDownEvent(SlateApp, InKeyEvent);
 }
 
-bool FGameAnalogCursor::HandleKeyUpEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
+
+bool FExtendedAnalogCursor::HandleKeyUpEvent(FSlateApplication& SlateApp, const FKeyEvent& InKeyEvent)
 {
 	// So we only read from the correct player index(to handle for local coop)
 	if (!IsRelevantInput(InKeyEvent))
@@ -112,7 +102,8 @@ bool FGameAnalogCursor::HandleKeyUpEvent(FSlateApplication& SlateApp, const FKey
 	return FAnalogCursor::HandleKeyUpEvent(SlateApp, InKeyEvent);
 }
 
-bool FGameAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, const FAnalogInputEvent& InAnalogInputEvent)
+
+bool FExtendedAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, const FAnalogInputEvent& InAnalogInputEvent)
 {
 	// So we only read from the correct player index(to handle for local coop)
 	if (!IsRelevantInput(InAnalogInputEvent))
@@ -128,7 +119,8 @@ bool FGameAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, cons
 	return FAnalogCursor::HandleAnalogInputEvent(SlateApp, InAnalogInputEvent);
 }
 
-bool FGameAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
+
+bool FExtendedAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
 {
 	// So we only read from the correct player index(to handle for local coop)
 	if (!IsRelevantInput(MouseEvent))
@@ -156,7 +148,8 @@ bool FGameAnalogCursor::HandleMouseButtonDownEvent(FSlateApplication& SlateApp, 
 	return false;
 }
 
-bool FGameAnalogCursor::HandleMouseButtonUpEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
+
+bool FExtendedAnalogCursor::HandleMouseButtonUpEvent(FSlateApplication& SlateApp, const FPointerEvent& MouseEvent)
 {
 	// So we only read from the correct player index(to handle for local coop)
 	if (!IsRelevantInput(MouseEvent))
@@ -174,14 +167,15 @@ bool FGameAnalogCursor::HandleMouseButtonUpEvent(FSlateApplication& SlateApp, co
 	return false;
 }
 
-void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp, TSharedRef<ICursor> Cursor)
+
+void FExtendedAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp, TSharedRef<ICursor> Cursor)
 {
 	if (PlayerContext.IsValid() && PlayerContext.GetPlayerController())
 	{
 		const FVector2D ViewportSize = UWidgetLayoutLibrary::GetViewportSize(PlayerContext.GetPlayerController());
 		const float DPIScale = GetDefault<UUserInterfaceSettings>()->GetDPIScaleBasedOnSize(FIntPoint(FMath::RoundToInt(ViewportSize.X), FMath::RoundToInt(ViewportSize.Y)));
-		
-		const UGamepadCursorSettings* Settings = GET_SETTINGS;
+
+		const UCursorSettings* Settings = GetDefault<UCursorSettings>();
 
 		// If we have no acceleration curve, then move on;
 		if (Settings->GetUseEngineAnalogCursor())
@@ -206,15 +200,15 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 		const FVector2D OldPosition = CurrentPosition;
 
 		// Figure out if we should clamp the speed or not
-		const float MaxSpeedNoHover = Settings->GetMaxAnalogCursorSpeed()*DPIScale;
-		const float MaxSpeedHover = Settings->GetMaxAnalogCursorSpeedWhenHovered()*DPIScale;
-		const float DragCoNoHover = Settings->GetAnalogCursorDragCoefficient()*DPIScale;
-		const float DragCoHovered = Settings->GetAnalogCursorDragCoefficientWhenHovered()*DPIScale;
-		const float MinCursorSpeed = Settings->GetMinAnalogCursorSpeed()*DPIScale;
+		const float MaxSpeedNoHover = Settings->GetMaxAnalogCursorSpeed() * DPIScale;
+		const float MaxSpeedHover = Settings->GetMaxAnalogCursorSpeedWhenHovered() * DPIScale;
+		const float DragCoNoHover = Settings->GetAnalogCursorDragCoefficient() * DPIScale;
+		const float DragCoHovered = Settings->GetAnalogCursorDragCoefficientWhenHovered() * DPIScale;
+		const float MinCursorSpeed = Settings->GetMinAnalogCursorSpeed() * DPIScale;
 
 		HoveredWidgetName = NAME_None;
 		float DragCo = DragCoNoHover;
-		
+
 		// Part of base class now
 		MaxSpeed = MaxSpeedNoHover;
 
@@ -282,7 +276,7 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 
 		// Update the new position
 		CurrentPosition += (Velocity * DeltaTime);
-		
+
 		// Update the cursor position
 		UpdateCursorPosition(SlateApp, SlateApp.GetUser(GetOwnerUserIndex()).ToSharedRef(), CurrentPosition);
 
@@ -290,27 +284,26 @@ void FGameAnalogCursor::Tick(const float DeltaTime, FSlateApplication& SlateApp,
 		if (!AccelFromAnalogStick.IsZero())
 		{
 			bIsUsingAnalogCursor = true;
-			FSlateApplication::Get().SetCursorRadius(Settings->GetAnalogCursorRadius()*DPIScale);
+			FSlateApplication::Get().SetCursorRadius(Settings->GetAnalogCursorRadius() * DPIScale);
 		}
 	}
 }
 
-FVector2D FGameAnalogCursor::GetAnalogCursorAccelerationValue(const FVector2D& InAnalogValues, float DPIScale)
+
+FVector2D FExtendedAnalogCursor::GetAnalogCursorAccelerationValue(const FVector2D& InAnalogValues, const float DPIScale) const
 {
-	const UGamepadCursorSettings* Settings = GET_SETTINGS;
+	const UCursorSettings* Settings = GetDefault<UCursorSettings>();
 
 	FVector2D RetValue = FVector2D::ZeroVector;
-	if ( const FRichCurve* AccelerationCurve = Settings->GetAnalogCursorAccelerationCurve() )
+	if (const FRichCurve* AccelerationCurve = Settings->GetAnalogCursorAccelerationCurve())
 	{
 		const float DeadZoneSize = Settings->GetAnalogCursorDeadZone();
 		const float AnalogValSize = InAnalogValues.Size();
 		if (AnalogValSize > DeadZoneSize)
 		{
 			RetValue = AccelerationCurve->Eval(AnalogValSize) * InAnalogValues.GetSafeNormal() * DPIScale;
-			RetValue *= Settings->GetAnalogCursorAccelerationMultiplier()*DPIScale;
+			RetValue *= Settings->GetAnalogCursorAccelerationMultiplier() * DPIScale;
 		}
 	}
 	return RetValue;
 }
-
-

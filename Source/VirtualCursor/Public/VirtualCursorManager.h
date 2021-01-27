@@ -1,34 +1,27 @@
-/*
-	This code was written by Nick Darnell
-
-	Plugin created by Rama
-	Modified by Nicholas Helish
-*/
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Subsystems/LocalPlayerSubsystem.h"
-#include "GamepadCursorManager.generated.h"
+#include "VirtualCursorManager.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogGamepadCursorManager, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogVirtualCursorManager, Log, All);
 
-class FGameAnalogCursor;
 
-/**
- *
- */
+class FExtendedAnalogCursor;
+
+
 UCLASS(Blueprintable, BlueprintType)
-class GAMEPADUMGPLUGIN_API UGamepadCursorManager : public ULocalPlayerSubsystem
+class VIRTUALCURSOR_API UVirtualCursorManager : public ULocalPlayerSubsystem
 {
 	GENERATED_BODY()
 
 public:
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	
+
 	virtual void Deinitialize() override;
 
-	FORCEINLINE TSharedPtr<FGameAnalogCursor> GetCursor() const { return Cursor; }
+	FORCEINLINE TSharedPtr<FExtendedAnalogCursor> GetCursor() const { return Cursor; }
 
 	UFUNCTION(BlueprintCallable, Category = "Cursor")
 	void EnableAnalogCursor();
@@ -67,7 +60,5 @@ public:
 
 private:
 
-	TSharedPtr<FGameAnalogCursor> Cursor;
-
+	TSharedPtr<FExtendedAnalogCursor> Cursor;
 };
-

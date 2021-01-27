@@ -1,21 +1,15 @@
-/*
-	This code was written by Nick Darnell
-
-	Plugin created by Rama
-	Modified by Nicholas Helish
-*/
 #pragma once
 
 #include "Modules/ModuleManager.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(GamepadUMGPluginModule, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(VirtualCursorModule, Log, All);
+
 
 /**
  * The public interface to this module
  */
-class FGamepadUMGPlugin : public IModuleInterface
+class FVirtualCursorPlugin : public IModuleInterface
 {
-
 public:
 
 	/* This will get called when the editor loads the module */
@@ -30,10 +24,11 @@ public:
 	 *
 	 * @return Returns singleton instance, loading the module on demand if needed
 	 */
-	static inline FGamepadUMGPlugin& Get()
+	static inline FVirtualCursorPlugin& Get()
 	{
-		return FModuleManager::LoadModuleChecked< FGamepadUMGPlugin >("GamepadUMGPlugin");
+		return FModuleManager::LoadModuleChecked<FVirtualCursorPlugin>("VirtualCursor");
 	}
+
 
 	/**
 	 * Checks to see if this module is loaded and ready.  It is only valid to call Get() if IsAvailable() returns true.
@@ -42,6 +37,6 @@ public:
 	 */
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded("GamepadUMGPlugin");
+		return FModuleManager::Get().IsModuleLoaded("VirtualCursor");
 	}
 };

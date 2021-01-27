@@ -1,46 +1,37 @@
-/*
-	This code was written by Nick Darnell
-
-	Plugin created by Rama
-	Modified by Nicholas Helish
-*/
-#include "GamepadCursorManager.h"
-#include "GameAnalogCursor.h"
-#include "GamepadCursorSettings.h"
+#include "VirtualCursorManager.h"
+#include "ExtendedAnalogCursor.h"
+#include "CursorSettings.h"
 #include "Framework/Application/SlateApplication.h"
 
 #include "Engine/Engine.h"
 
-DEFINE_LOG_CATEGORY(LogGamepadCursorManager);
+DEFINE_LOG_CATEGORY(LogVirtualCursorManager);
 
-// Helper macro for getting the settings without being able to edit the settings
-#define GET_SETTINGS GetDefault<UGamepadCursorSettings>()
-// Helper macro for getting the settings while being able to edit the settings
-#define GET_SETTINGS_EDIT GetMutableDefault<UGamepadCursorSettings>()
 
-void UGamepadCursorManager::Initialize(FSubsystemCollectionBase& Collection)
+void UVirtualCursorManager::Initialize(FSubsystemCollectionBase& Collection)
 {
-
 }
 
-void UGamepadCursorManager::Deinitialize()
+
+void UVirtualCursorManager::Deinitialize()
 {
 	// When the local player is ending, cleanup the analog cursor and reset the shared ptr variable
 	DisableAnalogCursor();
 	Cursor.Reset();
 }
 
-void UGamepadCursorManager::EnableAnalogCursor()
-{	
+
+void UVirtualCursorManager::EnableAnalogCursor()
+{
 	// Ensure that slate and the world is valid
 	if (FSlateApplication::IsInitialized() && GetWorld())
 	{
-		const float CursorRadius = GET_SETTINGS->GetAnalogCursorRadius();		
+		const float CursorRadius = GetDefault<UCursorSettings>()->GetAnalogCursorRadius();
 
 		// If the shared ptr isnt tied to a valid obj then create one and connect the two
 		if (!IsCursorValid())
 		{
-			Cursor = MakeShareable(new FGameAnalogCursor(GetLocalPlayer(), GetWorld(), CursorRadius));			
+			Cursor = MakeShareable(new FExtendedAnalogCursor(GetLocalPlayer(), GetWorld(), CursorRadius));
 		}
 
 		// Check that we're not re-adding it(which counts as a duplicate)
@@ -52,7 +43,8 @@ void UGamepadCursorManager::EnableAnalogCursor()
 	}
 }
 
-void UGamepadCursorManager::DisableAnalogCursor()
+
+void UVirtualCursorManager::DisableAnalogCursor()
 {
 	if (FSlateApplication::IsInitialized())
 	{
@@ -65,7 +57,8 @@ void UGamepadCursorManager::DisableAnalogCursor()
 	}
 }
 
-void UGamepadCursorManager::ToggleCursorDebug()
+
+void UVirtualCursorManager::ToggleCursorDebug()
 {
 	if (IsCursorValid())
 	{
@@ -75,7 +68,8 @@ void UGamepadCursorManager::ToggleCursorDebug()
 	}
 }
 
-void UGamepadCursorManager::ToggleAnalogDebug()
+
+void UVirtualCursorManager::ToggleAnalogDebug()
 {
 	if (IsCursorValid())
 	{
@@ -85,7 +79,8 @@ void UGamepadCursorManager::ToggleAnalogDebug()
 	}
 }
 
-bool UGamepadCursorManager::IsCursorDebugActive() const
+
+bool UVirtualCursorManager::IsCursorDebugActive() const
 {
 	if (IsCursorValid())
 	{
@@ -94,7 +89,8 @@ bool UGamepadCursorManager::IsCursorDebugActive() const
 	return false;
 }
 
-bool UGamepadCursorManager::IsAnalogDebugActive() const
+
+bool UVirtualCursorManager::IsAnalogDebugActive() const
 {
 	if (IsCursorValid())
 	{
@@ -103,7 +99,8 @@ bool UGamepadCursorManager::IsAnalogDebugActive() const
 	return false;
 }
 
-bool UGamepadCursorManager::IsCursorOverInteractableWidget() const
+
+bool UVirtualCursorManager::IsCursorOverInteractableWidget() const
 {
 	if (IsCursorValid())
 	{
@@ -112,12 +109,14 @@ bool UGamepadCursorManager::IsCursorOverInteractableWidget() const
 	return false;
 }
 
-bool UGamepadCursorManager::IsCursorValid() const
+
+bool UVirtualCursorManager::IsCursorValid() const
 {
 	return Cursor.IsValid();
 }
 
-bool UGamepadCursorManager::ContainsGamepadCursorInputProcessor() const
+
+bool UVirtualCursorManager::ContainsGamepadCursorInputProcessor() const
 {
 	if (FSlateApplication::IsInitialized())
 	{

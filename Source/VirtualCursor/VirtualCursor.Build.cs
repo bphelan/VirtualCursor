@@ -1,12 +1,11 @@
-// Copyright 2015 by Nathan "Rama" Iyer. All Rights Reserved.
 using UnrealBuildTool;
 using System.IO;
 
-public class GamepadUMGPlugin : ModuleRules
+public class VirtualCursor : ModuleRules
 {
-    public GamepadUMGPlugin(ReadOnlyTargetRules Target) : base(Target)
+    public VirtualCursor(ReadOnlyTargetRules Target) : base(Target)
     {
-        PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+        // PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public"));
         PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private"));
