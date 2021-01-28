@@ -7,6 +7,8 @@ class VIRTUALCURSOR_API FExtendedAnalogCursor : public FAnalogCursor
 {
 public:
 
+	typedef FAnalogCursor Super;
+
 	FExtendedAnalogCursor(ULocalPlayer* InLocalPlayer, UWorld* InWorld, float _Radius);
 	FExtendedAnalogCursor(class APlayerController* PlayerController, float _Radius);
 
@@ -59,6 +61,10 @@ public:
 		return Radius;
 	}
 
+	FORCEINLINE void SetStick(const EAnalogStick CursorMovementStick)
+	{
+		AnalogStick = CursorMovementStick;
+	}
 
 	uint8 bDebugging : 1;
 
@@ -90,4 +96,6 @@ private:
 	FLocalPlayerContext PlayerContext;
 
 	TSet<FKey> PressedKeys;
+
+	EAnalogStick AnalogStick = EAnalogStick::Left;
 };

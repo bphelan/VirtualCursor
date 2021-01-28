@@ -24,7 +24,7 @@ public:
 	FORCEINLINE TSharedPtr<FExtendedAnalogCursor> GetCursor() const { return Cursor; }
 
 	UFUNCTION(BlueprintCallable, Category = "Cursor")
-	void EnableAnalogCursor();
+	void EnableAnalogCursor(bool bUseLeftStick = true);
 
 	UFUNCTION(BlueprintCallable, Category = "Cursor")
 	void DisableAnalogCursor();

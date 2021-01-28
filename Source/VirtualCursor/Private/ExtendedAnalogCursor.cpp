@@ -177,13 +177,6 @@ void FExtendedAnalogCursor::Tick(const float DeltaTime, FSlateApplication& Slate
 
 		const UCursorSettings* Settings = GetDefault<UCursorSettings>();
 
-		// If we have no acceleration curve, then move on;
-		if (Settings->GetUseEngineAnalogCursor())
-		{
-			FAnalogCursor::Tick(DeltaTime, SlateApp, Cursor);
-			return;
-		}
-
 		// Set the current position if we haven't already
 		static const float MouseMoveSizeBuffer = 2.0f;
 		const FVector2D CurrentPositionTruc = FVector2D(FMath::TruncToFloat(CurrentPosition.X), FMath::TruncToFloat(CurrentPosition.Y));
@@ -234,7 +227,7 @@ void FExtendedAnalogCursor::Tick(const float DeltaTime, FSlateApplication& Slate
 		}
 
 		// Grab the cursor acceleration
-		const FVector2D AccelFromAnalogStick = GetAnalogCursorAccelerationValue(GetAnalogValues(), DPIScale);
+		const FVector2D AccelFromAnalogStick = GetAnalogCursorAccelerationValue(GetAnalogValues(AnalogStick), DPIScale);
 
 		FVector2D NewAccelerationThisFrame = FVector2D::ZeroVector;
 		if (!Settings->GetAnalogCursorNoAcceleration())

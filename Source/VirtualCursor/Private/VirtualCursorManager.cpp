@@ -21,7 +21,7 @@ void UVirtualCursorManager::Deinitialize()
 }
 
 
-void UVirtualCursorManager::EnableAnalogCursor()
+void UVirtualCursorManager::EnableAnalogCursor(const bool bUseLeftStick)
 {
 	// Ensure that slate and the world is valid
 	if (FSlateApplication::IsInitialized() && GetWorld())
@@ -32,6 +32,9 @@ void UVirtualCursorManager::EnableAnalogCursor()
 		if (!IsCursorValid())
 		{
 			Cursor = MakeShareable(new FExtendedAnalogCursor(GetLocalPlayer(), GetWorld(), CursorRadius));
+			
+			const EAnalogStick Stick = bUseLeftStick ? EAnalogStick::Left : EAnalogStick::Right;
+			Cursor->SetStick(Stick);
 		}
 
 		// Check that we're not re-adding it(which counts as a duplicate)

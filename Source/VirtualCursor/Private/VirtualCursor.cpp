@@ -4,13 +4,13 @@
 #include "VirtualCursorManager.h"
 
 
-void UVirtualCursor::Enable(class APlayerController* PlayerController)
+void UVirtualCursor::Enable(class APlayerController* PlayerController, const bool bUseLeftStick)
 {
 	if (PlayerController)
 	{
 		if (PlayerController->GetLocalPlayer())
 		{
-			PlayerController->GetLocalPlayer()->GetSubsystem<UVirtualCursorManager>()->EnableAnalogCursor();
+			PlayerController->GetLocalPlayer()->GetSubsystem<UVirtualCursorManager>()->EnableAnalogCursor(bUseLeftStick);
 		}
 	}
 }

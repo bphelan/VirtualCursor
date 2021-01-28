@@ -12,7 +12,7 @@ class VIRTUALCURSOR_API UVirtualCursor : public UBlueprintFunctionLibrary
 public:
 
 	UFUNCTION(BlueprintCallable, Category="Virtual Cursor", meta = (DisplayName = "Enable Virtual Cursor"))
-	static void Enable(class APlayerController* PlayerController);
+	static void Enable(class APlayerController* PlayerController, bool bUseLeftStick = true);
 
 	UFUNCTION(BlueprintCallable, Category = "Virtual Cursor", meta = (DisplayName = "Disable Virtual Cursor"))
 	static void Disable(class APlayerController* PlayerController);
