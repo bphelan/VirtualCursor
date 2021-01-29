@@ -112,6 +112,12 @@ bool FExtendedAnalogCursor::HandleAnalogInputEvent(FSlateApplication& SlateApp, 
 		return false;
 	}
 
+	// Prevent Slate from swallowing events that aren't relevant to our virtual cursor
+	if (!IsCursorStickInput(InAnalogInputEvent))
+	{
+		return false;
+	}
+
 	if (bAnalogDebug)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, "ANALOG: " + InAnalogInputEvent.GetKey().ToString());
@@ -300,3 +306,17 @@ FVector2D FExtendedAnalogCursor::GetAnalogCursorAccelerationValue(const FVector2
 	}
 	return RetValue;
 }
+
+
+bool FExtendedAnalogCursor::IsCursorStickInput(const FAnalogInputEvent& AnalogInputEvent) const
+{
+	return
+	  (AnalogStick == EAnalogStick::Left &&
+	  	(AnalogInputEvent.GetKey() == EKeys::Gamepad_LeftX || AnalogInputEvent.GetKey() == EKeys::Gamepad_LeftY)
+	  ) ||
+	  (AnalogStick == EAnalogStick::Right &&
+	  	(AnalogInputEvent.GetKey() == EKeys::Gamepad_RightX || AnalogInputEvent.GetKey() == EKeys::Gamepad_RightY)
+	  );
+}
+
+
