@@ -1,6 +1,6 @@
-#include "VirtualCursorManager.h"
-#include "ExtendedAnalogCursor.h"
-#include "CursorSettings.h"
+#include "VirtualCursor/VirtualCursorManager.h"
+#include "VirtualCursor/ExtendedAnalogCursor.h"
+#include "VirtualCursor/CursorSettings.h"
 #include "Framework/Application/SlateApplication.h"
 
 #include "Engine/Engine.h"

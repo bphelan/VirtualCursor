@@ -1,5 +1,5 @@
-#include "ExtendedAnalogCursor.h"
-#include "CursorSettings.h"
+#include "VirtualCursor/ExtendedAnalogCursor.h"
+#include "VirtualCursor/CursorSettings.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Engine/UserInterfaceSettings.h"
 #include "Engine/Engine.h"
