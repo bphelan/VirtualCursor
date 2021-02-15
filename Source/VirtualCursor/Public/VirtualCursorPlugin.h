@@ -2,7 +2,7 @@
 
 #include "Modules/ModuleManager.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(VirtualCursorModule, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogVirtualCursor, Log, All);
 
 
 /**

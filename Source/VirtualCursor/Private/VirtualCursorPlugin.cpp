@@ -1,7 +1,7 @@
 
 #include "VirtualCursorPlugin.h"
 
-DEFINE_LOG_CATEGORY(VirtualCursorModule);
+DEFINE_LOG_CATEGORY(LogVirtualCursor);
 
 
 #define LOCTEXT_NAMESPACE "FVirtualCursorPlugin"
@@ -9,13 +9,13 @@ DEFINE_LOG_CATEGORY(VirtualCursorModule);
 
 void FVirtualCursorPlugin::StartupModule()
 {
-	UE_LOG(VirtualCursorModule, Warning, TEXT("VirtualCursor module has started"));
+	UE_LOG(LogVirtualCursor, Log, TEXT("VirtualCursor module has started"));
 }
 
 
 void FVirtualCursorPlugin::ShutdownModule()
 {
-	UE_LOG(VirtualCursorModule, Warning, TEXT("VirtualCursor module has shut down"));
+	UE_LOG(LogVirtualCursor, Log, TEXT("VirtualCursor module has shut down"));
 }
 
 #undef LOCTEXT_NAMESPACE
