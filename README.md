@@ -1,9 +1,9 @@
 # Virtual Cursor
-## Unreal Engine 4 Mouse & Gamepad Cursor Management Plugin
+## Unreal Engine Mouse & Gamepad Cursor Management Plugin
 
 This plugin enables seamless mouse/gamepad cursor input.
 
-For example usage, see [UE4GamepadUMG](https://github.com/bphelan/UE4GamepadUMG).
+For example usage, see [VirtualCursorExample](https://github.com/bphelan/VirtualCursorExample).
 
 Original authors: [Nick Darnell and Nick A. at Epic Games](https://forums.unrealengine.com/development-discussion/c-gameplay-programming/58427-example-virtual-analog-cursor-in-umg-slate-destiny-style)
 
